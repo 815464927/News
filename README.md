@@ -11,6 +11,7 @@
 * [rxjava](https://github.com/ReactiveX/RxJava)
 * [rxAndroid](https://github.com/ReactiveX/RxAndroid)
 * [jiecaovideoplayer](https://github.com/lipangit/JieCaoVideoPlayer)
+* [retrofit2](https://github.com/square/retrofit)
 
 ## TODO
 * 实现个个Tab对应的Fragment
