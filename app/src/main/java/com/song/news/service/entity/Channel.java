@@ -1,4 +1,4 @@
-package com.song.news.entity;
+package com.song.news.service.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

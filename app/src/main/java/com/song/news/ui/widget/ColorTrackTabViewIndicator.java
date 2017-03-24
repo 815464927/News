@@ -34,7 +34,7 @@ public class ColorTrackTabViewIndicator extends HorizontalScrollView implements 
     private int mTabSelectedTextColor;
     private Paint mPaint = new Paint();
     private int mIndicatorColor;
-    private String[] mTitles;
+    private ArrayList<String> mTitles;
     private int mTabCount;
     private int mTabTextColor;
     private CorlorTrackTabBack icallBack;
@@ -187,9 +187,9 @@ public class ColorTrackTabViewIndicator extends HorizontalScrollView implements 
         this.viewList.get(position).setProgress(1.0F);
     }
 
-    public void setTitles(String[] titles, CorlorTrackTabBack callBack) {
+    public void setTitles(ArrayList<String> titles, CorlorTrackTabBack callBack) {
         this.mTitles = titles;
-        this.mTabCount = titles.length;
+        this.mTabCount = titles.size();
         this.icallBack = callBack;
         generateTitleView();
     }
@@ -200,7 +200,7 @@ public class ColorTrackTabViewIndicator extends HorizontalScrollView implements 
         if (mTabStrip.getChildCount() > 0) {
             mTabStrip.removeAllViews();
         }
-        for (int i = 0; i < mTitles.length; i++) {
+        for (int i = 0; i < mTitles.size(); i++) {
             LinearLayout tabLayout = new LinearLayout(getContext());
             tabLayout.setOrientation(LinearLayout.HORIZONTAL);
             tabLayout.setGravity(Gravity.CENTER);
@@ -232,7 +232,7 @@ public class ColorTrackTabViewIndicator extends HorizontalScrollView implements 
             if (mMode == MODE_FIXED) {
                 int widthPixels = mContext.getResources().getDisplayMetrics().widthPixels;
                 params = new FrameLayout.LayoutParams(
-                        mTabWidth == -1 ? widthPixels / mTitles.length : mTabWidth, -2);
+                        mTabWidth == -1 ? widthPixels / mTitles.size() : mTabWidth, -2);
             } else {
                 params = new FrameLayout.LayoutParams(mTabWidth == -1 ? -2 : mTabWidth, -2);
             }
@@ -240,7 +240,7 @@ public class ColorTrackTabViewIndicator extends HorizontalScrollView implements 
             colorTrackView
                     .setLayoutParams(params);
             colorTrackView.setTag(Integer.valueOf(i));
-            colorTrackView.setText(this.mTitles[i]);
+            colorTrackView.setText(this.mTitles.get(i));
             colorTrackView.setTextOriginColor(mTabTextColor);
             colorTrackView.setTextChangeColor(mTabSelectedTextColor);
             colorTrackView.setTextSize(mTabTextSize);

@@ -2,17 +2,21 @@ package com.song.news.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.song.news.R;
 import com.song.news.base.BaseFragment;
-import com.song.news.service.entity.NewsChannel;
-import com.song.news.service.presenter.NewsChannalPresenter;
-import com.song.news.service.view.NewsChannalView;
+import com.song.news.service.entity.News;
+import com.song.news.service.presenter.NewsPresenter;
+import com.song.news.service.view.NewsView;
+import com.song.news.ui.adapter.HomeFragmentAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Created by song on 2017/3/15.
@@ -21,9 +25,10 @@ import com.song.news.service.view.NewsChannalView;
 
 public class HomeFragment extends BaseFragment {
 
-    private TextView tv;
     private View homeView=null;
-    private NewsChannalPresenter mNewsChannalPresenter;
+    private RecyclerView mRecyclerView;
+    private HomeFragmentAdapter mAdapter;
+    private NewsPresenter mNewsPresenter;
 
 
     @Nullable
@@ -33,42 +38,50 @@ public class HomeFragment extends BaseFragment {
         if(homeView==null) {
             homeView = LayoutInflater.from(getContext()).inflate(R.layout.home_fragment,
                     container, false);
-            initData();
             initView(homeView);
+            initData();
         }
         return homeView;
     }
 
     private void initView(View v){
-        tv = (TextView) v.findViewById(R.id.tv_test);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
     }
 
     private void initData() {
-        mNewsChannalPresenter = new NewsChannalPresenter(getActivity());
-        mNewsChannalPresenter.attachView(new NewsChannalView() {
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayout.VERTICAL);
+        mRecyclerView.setLayoutManager(manager);
+
+        mNewsPresenter = new NewsPresenter(getActivity());
+        mNewsPresenter.attachView(new NewsView() {
             @Override
-            public void onSucess(NewsChannel newsChannal) {
-                Log.d("--->NewsChannel",newsChannal.toString());
-                tv.setText(newsChannal.toString());
-                //TODO 写适配页面
+            public void onSucess(ArrayList<News.ShowapiResBodyBean.PagebeanBean.ContentlistBean>
+                                         listData, int allPage) {
+                closeDialog();
+                // TODO 刷新适配器
+                mAdapter = new HomeFragmentAdapter(getActivity(),listData);
+                mRecyclerView.setAdapter(mAdapter);
             }
+
 
             @Override
             public void onError(String result) {
-                Log.d("--->NewsChannel",result);
+                closeDialog();
             }
         });
     }
 
     @Override
     protected void viewCreated() {
-        //请求网络
-        mNewsChannalPresenter.getNewsChannal();
+        mNewsPresenter.getNews("国内焦点",1);
+        showDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mNewsChannalPresenter.onStop();
+        mNewsPresenter.onStop();
     }
 }

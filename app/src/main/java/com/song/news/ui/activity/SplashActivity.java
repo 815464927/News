@@ -26,6 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     private ImageView iv;
     private Subscription mSubscription;
     private int countDownTime = 5;//倒计时间
+    //图片来源于百度
     private String imageUrl = "https://timgsa.baidu.com/timg?image&quality=" +
             "80&size=b9999_10000&sec=1489570061101&di=ea02ec4ffcf82fa3" +
             "9fce56b295de30f0&imgtype=0&src=http%3A%2F%2Fcdnq.duitang." +

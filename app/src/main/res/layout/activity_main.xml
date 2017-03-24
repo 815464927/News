@@ -36,7 +36,7 @@
             app:ctTabSelectedTextColor="@color/red"
             app:ctTabTextColor="@color/black"
             app:ctTabTextSize="16sp"
-            app:ctTabWidth="50dp" />
+            app:ctTabWidth="100dp" />
 
         <ImageView
             android:layout_width="50dp"

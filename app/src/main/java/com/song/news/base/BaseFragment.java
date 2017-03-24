@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.song.news.R;
+import com.song.news.ui.widget.ProgressHUD;
+
 /**
  * Created by song on 2017/3/7.
  * Email：815464927@qq.com
@@ -20,6 +23,8 @@ public abstract class BaseFragment extends Fragment {
     private boolean isViewCreated;
     //Fragment对用户可见的标记
     private boolean isUIVisible;
+    //对话框进度条
+    protected ProgressHUD mProgressHUD;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -52,4 +57,26 @@ public abstract class BaseFragment extends Fragment {
     }
     /** get Data from servers */
     protected abstract void viewCreated();
+
+    /**
+     * 显示进度条
+     */
+    protected void showDialog() {
+        if (null == mProgressHUD) {
+            mProgressHUD = ProgressHUD.show(getActivity(),
+                    getString(R.string.loading), true, false, null);
+        } else {
+            mProgressHUD.show();
+        }
+    }
+
+    /**
+     * 显示对话框
+     */
+    protected void closeDialog() {
+        if (null != mProgressHUD) {
+            mProgressHUD.dismiss();
+        }
+    }
+
 }

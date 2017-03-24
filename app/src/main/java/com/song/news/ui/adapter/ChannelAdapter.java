@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.song.news.R;
-import com.song.news.entity.Channel;
+import com.song.news.service.entity.Channel;
 
 import java.util.List;
 

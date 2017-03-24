@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.song.news.R;
 import com.song.news.dragCallBack.ItemDragHelperCallBack;
-import com.song.news.entity.Channel;
+import com.song.news.service.entity.Channel;
 import com.song.news.ui.adapter.ChannelAdapter;
 
 import java.util.ArrayList;
