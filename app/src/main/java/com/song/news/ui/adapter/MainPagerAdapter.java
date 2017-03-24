@@ -12,12 +12,12 @@ import java.util.List;
  * Email：815464927@qq.com
  */
 
-public class HomePagerAdapter extends FragmentPagerAdapter {
+public class MainPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;
     private ArrayList<String> titles;
 
-    public HomePagerAdapter(FragmentManager fm, List<Fragment> fragments, ArrayList<String> titles){
+    public MainPagerAdapter(FragmentManager fm, List<Fragment> fragments, ArrayList<String> titles){
         super(fm);
         this.fragments = fragments;
         this.titles = titles;

@@ -14,8 +14,10 @@
 * [retrofit2](https://github.com/square/retrofit)
 
 ## TODO
-* 实现个个Tab对应的Fragment
+* setting
+* 清除缓存
 * 视频播放
+* 地区新闻(后期加上)
 * 貌似还有很多......
 
 ## 声明

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.song.news.ui.activity.AboutActivity">
+
+    <!--标题栏-->
+    <include layout="@layout/public_toolbar" />
+
+    <com.song.news.ui.widget.CircularImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <!--介绍-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shap_bg"
+        android:padding="10dp"
+        android:text="@string/news_des" />
+
+    <!--用到的技术-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shap_bg"
+        android:padding="10dp"
+        android:text="@string/news_fun" />
+
+    <!--about me-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shap_bg"
+        android:padding="10dp"
+        android:text="@string/news_about_me" />
+
+</LinearLayout>

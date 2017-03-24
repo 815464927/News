@@ -2,17 +2,19 @@
     <string name="app_name">新闻客户端</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_about">关于</string>
+    <string name="action_area">地区新闻</string>
+    <string name="action_clear">清除缓存</string>
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
     <string name="start_level">Level 1</string>
     <string name="next_level">Next Level</string>
-    <!-- -
-        This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
-        For more information, see https://support.google.com/admob/answer/3052638
-    <!- -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
 
     <string name="skip">5s 跳过</string>
     <string name="public_title">Title</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="news_des">应用介绍：  \n News 新闻客户端数据来源于易源接口(showAPI)，logo图片来源于easyIcon。新闻数据每10分钟刷新，包括多个频道的最新新闻，有国内焦点、国际焦点、军事焦点、财经焦点、互联网焦点、房产焦点、汽车焦点、体育焦点、娱乐焦点、游戏焦点等等。</string>
+    <string name="news_fun">功能介绍：  \n 基于mvp模式(model、view、presenter)\n 主界面用FragmentPagerAdapter适配器适配，每个Fragment用懒加载的方式节省用户流量\n 用到的第三方库：\n Glide加载图片 \n Retrofit2、rxJava、rxAndroid的网络请求框架</string>
+    <string name="news_about_me">  about me: \n 我的githut:https://github.com/815464927 做得不够好的地方欢迎Issues -_-</string>
 
 </resources>

@@ -50,12 +50,14 @@ public class NewsPresenter implements Presenter {
         }
     }
 
+    private ArrayList<News.ShowapiResBodyBean.PagebeanBean.ContentlistBean> data =
+            new ArrayList<News.ShowapiResBodyBean.PagebeanBean.ContentlistBean>();
     /**
      * 获取新闻列表
      * @param channalName 新闻频道名字
      * @param page 请求的页码
      */
-    public void getNews(String channalName,int page) {
+    public void getNews(String channalName, final int page) {
         mCompositeSubscription.add(mManager.getNews(channalName,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,10 +65,8 @@ public class NewsPresenter implements Presenter {
                     @Override
                     public void onCompleted() {
                         if (null != mNews) {
-                            ArrayList<News.ShowapiResBodyBean.PagebeanBean.ContentlistBean> data =
-                                    new ArrayList<News.ShowapiResBodyBean.PagebeanBean.ContentlistBean>();
-                            for (int i = 0; i < mNews.getShowapi_res_body().getPagebean().getContentlist().size();
-                                 i++) {
+                            if (page == 1) data.clear();
+                            for (int i = 0; i < mNews.getShowapi_res_body().getPagebean().getContentlist().size(); i++) {
                                 data.add(mNews.getShowapi_res_body().getPagebean().getContentlist().get(i));
                             }
                             mNewsView.onSucess(data, mNews.getShowapi_res_body().getPagebean().getAllPages());

@@ -64,7 +64,7 @@ public abstract class BaseFragment extends Fragment {
     protected void showDialog() {
         if (null == mProgressHUD) {
             mProgressHUD = ProgressHUD.show(getActivity(),
-                    getString(R.string.loading), true, false, null);
+                    getString(R.string.loading), true, true, null);
         } else {
             mProgressHUD.show();
         }

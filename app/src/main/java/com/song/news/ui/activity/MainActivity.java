@@ -4,31 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.song.news.R;
+import com.song.news.base.BaseActivity;
 import com.song.news.service.entity.NewsChannel;
 import com.song.news.service.presenter.NewsChannalPresenter;
 import com.song.news.service.view.NewsChannalView;
-import com.song.news.ui.adapter.HomePagerAdapter;
-import com.song.news.ui.fragment.HomeFragment;
+import com.song.news.ui.adapter.MainPagerAdapter;
+import com.song.news.ui.fragment.NewsFragment;
 import com.song.news.ui.widget.ColorTrackTabViewIndicator;
 import com.song.news.ui.widget.ColorTrackView;
-import com.song.news.ui.widget.ProgressHUD;
+import com.song.news.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private ProgressHUD mProgressHUD;//对话框进度条
     private NewsChannalPresenter mNewsChannalPresenter;
-    private TextView publicTitle;
     private ColorTrackTabViewIndicator tab;
     private ViewPager vp;
     private ArrayList<String> titles = new ArrayList<>();//获取新闻频道列表
+    private List<Fragment> fragments = new ArrayList<>();//管理fragment的list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        publicTitle = (TextView) findViewById(R.id.public_title);
         tab = (ColorTrackTabViewIndicator) findViewById(R.id.tab);
         vp = (ViewPager) findViewById(R.id.vp);
         final View tabChild = tab.getChildAt(0);
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        publicTitle.setText("新闻导航");
 
         mNewsChannalPresenter = new NewsChannalPresenter(this);
         mNewsChannalPresenter.attachView(new NewsChannalView() {
@@ -77,36 +75,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void prepreAdapterViewPager(){
-        List<Fragment> fragments = new ArrayList<>();
-        //初始化数据
-//        HomeFragment fragment = new HomeFragment();
-//        fragments.add(fragment);
-//        VideoFragment fragment1 = new VideoFragment();
-//        fragments.add(fragment1);
-//        HomeFragment2 fragment2 = new HomeFragment2();
-//        fragments.add(fragment2);
-//        HomeFragment3 fragment3 = new HomeFragment3();
-//        fragments.add(fragment3);
-//        HomeFragment4 fragment4 = new HomeFragment4();
-//        fragments.add(fragment4);
-//        HomeFragment5 fragment5 = new HomeFragment5();
-//        fragments.add(fragment5);
-//        HomeFragment6 fragment6 = new HomeFragment6();
-//        fragments.add(fragment6);
-//        HomeFragment7 fragment7 = new HomeFragment7();
-//        fragments.add(fragment7);
-//        HomeFragment8 fragment8 = new HomeFragment8();
-//        fragments.add(fragment8);
-//        HomeFragment9 fragment9 = new HomeFragment9();
-//        fragments.add(fragment9);
-
+        //初始化Fragment
+        fragments.clear();
         for (int i = 0;i<titles.size();i++) {
-            HomeFragment frg = new HomeFragment();
+            NewsFragment frg = new NewsFragment();
+            frg.setNewschannal(titles.get(i));
             fragments.add(frg);
         }
 
-
-        vp.setAdapter(new HomePagerAdapter(getSupportFragmentManager(), fragments, titles));
+        vp.setAdapter(new MainPagerAdapter(getSupportFragmentManager(), fragments, titles));
         tab.setTitles(titles, new ColorTrackTabViewIndicator.CorlorTrackTabBack() {
             @Override
             public void onClickButton(Integer position, ColorTrackView colorTrackView) {
@@ -118,33 +95,34 @@ public class MainActivity extends AppCompatActivity {
         tab.setupViewPager(vp);
     }
 
-    public void addOncick(View view) {
-        startActivity(new Intent(this,ChannelActivity.class));
-    }
-
     public void floatingActionButtonOnclick(View view) {
         startActivity(new Intent(this,HeaderZoomActivity.class));
     }
 
-    /**
-     * 显示进度条
-     */
-    protected void showDialog() {
-        if (null == mProgressHUD) {
-            mProgressHUD = ProgressHUD.show(this,
-                    getString(R.string.loading), true, false, null);
-        } else {
-            mProgressHUD.show();
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
-    /**
-     * 显示对话框
-     */
-    protected void closeDialog() {
-        if (null != mProgressHUD) {
-            mProgressHUD.dismiss();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                startActivity(new Intent(this,AboutActivity.class));
+                overridePendingTransition(R.anim.slide_right_in,R.anim.slide_left_out);
+                break;
+            case R.id.action_settings:
+                ToastUtils.showToast(this, "setting");
+                break;
+            case R.id.action_area:
+                ToastUtils.showToast(this, "地区新闻");
+                break;
+            case R.id.action_clear:
+                ToastUtils.showToast(this, "清除缓存");
+                break;
         }
+        return true;
     }
 
     @Override

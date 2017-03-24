@@ -12,8 +12,6 @@ import com.song.news.R;
 import com.song.news.base.BaseFragment;
 import com.song.news.ui.activity.VideoActivity;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by song on 2017/3/15.
  * Email：815464927@qq.com
@@ -28,7 +26,6 @@ public class VideoFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.video_fragment, container, false);
-        ButterKnife.bind(this, view);
         registerLisener(view);
         return view;
     }
