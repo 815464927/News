@@ -16,5 +16,6 @@
     <string name="news_des">应用介绍：  \n News 新闻客户端数据来源于易源接口(showAPI)，logo图片来源于easyIcon。新闻数据每10分钟刷新，包括多个频道的最新新闻，有国内焦点、国际焦点、军事焦点、财经焦点、互联网焦点、房产焦点、汽车焦点、体育焦点、娱乐焦点、游戏焦点等等。</string>
     <string name="news_fun">功能介绍：  \n 基于mvp模式(model、view、presenter)\n 主界面用FragmentPagerAdapter适配器适配，每个Fragment用懒加载的方式节省用户流量\n 用到的第三方库：\n Glide加载图片 \n Retrofit2、rxJava、rxAndroid的网络请求框架</string>
     <string name="news_about_me">  about me: \n 我的githut:https://github.com/815464927 做得不够好的地方欢迎Issues -_-</string>
+    <string name="go2top">回到顶部</string>
 
 </resources>

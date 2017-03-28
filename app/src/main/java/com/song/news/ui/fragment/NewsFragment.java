@@ -1,5 +1,6 @@
 package com.song.news.ui.fragment;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.ValueAnimator;
 import com.song.news.R;
 import com.song.news.base.BaseFragment;
 import com.song.news.listener.OnRcvScrollListener;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 
 public class NewsFragment extends BaseFragment {
 
-    private View homeView=null;
+    private View homeView = null;
     private RecyclerView mRecyclerView;
     private NewsFragmentAdapter mAdapter;
     private NewsPresenter mNewsPresenter;
@@ -43,35 +42,35 @@ public class NewsFragment extends BaseFragment {
     //RecycleView是否正在刷新
     private boolean isRefreshing;
     private boolean isLoading;
-    //属性动画
-    private ObjectAnimator mAnimator;
+
     private int currentPage = 1;
     private int allPages = 0;
-    private String Newschannal="国内焦点";
+    private String Newschannal = "国内焦点";
+    private PopupWindow popuView;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if(homeView==null) {
+        if (homeView == null) {
             homeView = LayoutInflater.from(getContext()).inflate(R.layout.news_fragment,
                     container, false);
             initView(homeView);
+            registerLisener();
             initData();
         }
         return homeView;
     }
 
-    private void initView(View v){
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
-        mFButton = (FloatingActionButton) v.findViewById(R.id.fb);
-
+    private void registerLisener() {
         //设置下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (isRefreshing) {
+                    return;
+                }
                 isRefreshing = true;
                 //网络请求
                 mNewsPresenter.getNews(Newschannal, 1);
@@ -88,41 +87,71 @@ public class NewsFragment extends BaseFragment {
                     if (currentPage < allPages) {
                         ++currentPage;
                         mNewsPresenter.getNews(Newschannal, currentPage);
-                    }else{
-                        ToastUtils.showToast(getActivity(),"已经没有新闻了喔");
+                    } else {
+                        ToastUtils.showToast(getActivity(), "已经没有新闻了喔");
                     }
                 }
             }
         });
-
-        //设置浮点按钮绑定RecyclerView
-        mFButton.attachToRecyclerView(mRecyclerView);
         //浮点按钮监听事件
         mFButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isRefreshing || isLoading)
-                    return;
-                mAnimator = ObjectAnimator.ofFloat(view, "rotation", 0F, 360F);
-                mAnimator.setDuration(500);
-                mAnimator.setInterpolator(new LinearInterpolator());
-                mAnimator.setRepeatCount(ValueAnimator.INFINITE);
-                mAnimator.setRepeatMode(ValueAnimator.RESTART);
-                mAnimator.start();
-                mRecyclerView.scrollToPosition(0);
-                isRefreshing = true;
-                //网络请求
-                mNewsPresenter.getNews(Newschannal, 1);
+                mFButton.hide(true);
+                popuView.showAsDropDown(mFButton,100,100);
+            }
+        });
+    }
+
+    private void initView(View v) {
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
+        mFButton = (FloatingActionButton) v.findViewById(R.id.fb);
+
+        //设置浮点按钮绑定RecyclerView
+        mFButton.attachToRecyclerView(mRecyclerView);
+
+        //初始化popuWindow
+        popuView = new PopupWindow();
+        View popu = LayoutInflater.from(getActivity()).inflate(R.layout.popu_view, null);
+        initPopuView(popu);
+        popuView.setAnimationStyle(R.style.popu_style);
+        popuView.setContentView(popu);
+        popuView.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popuView.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popuView.setFocusable(true);
+        popuView.setBackgroundDrawable(new ColorDrawable(00000000));
+    }
+
+    private void initPopuView(View view) {
+        view.findViewById(R.id.go_top).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRecyclerView.smoothScrollToPosition(0);
+                popuView.dismiss();
+            }
+        });
+        view.findViewById(R.id.tv_share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showToast(getActivity(),"share");
+                popuView.dismiss();
+            }
+        });
+        view.findViewById(R.id.tv_save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showToast(getActivity(),"save");
+                popuView.dismiss();
             }
         });
     }
 
     private void initData() {
-
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayout.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new NewsFragmentAdapter(getActivity(),mData);
+        mAdapter = new NewsFragmentAdapter(getActivity(), mData);
         mRecyclerView.setAdapter(mAdapter);
 
         mNewsPresenter = new NewsPresenter(getActivity());
@@ -139,22 +168,16 @@ public class NewsFragment extends BaseFragment {
                 mRefreshLayout.setRefreshing(false);
                 isLoading = false;
                 isRefreshing = false;
-                //取消动画
-                if (mAnimator != null)
-                    mAnimator.cancel();
             }
 
             @Override
             public void onError(String result) {
                 closeDialog();
                 //请求结束后处理
-                ToastUtils.showToast(getActivity(),"获取不到新闻，请刷新页面尝试");
+                ToastUtils.showToast(getActivity(), "获取不到新闻，请刷新页面尝试");
                 mRefreshLayout.setRefreshing(false);
                 isLoading = false;
                 isRefreshing = false;
-                //取消动画
-                if (mAnimator != null)
-                    mAnimator.cancel();
             }
         });
     }
@@ -165,7 +188,7 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     protected void viewCreated() {
-        mNewsPresenter.getNews(Newschannal,1);
+        mNewsPresenter.getNews(Newschannal, 1);
         mData.clear();
         showDialog();
     }

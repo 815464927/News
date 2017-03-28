@@ -1,6 +1,7 @@
 package com.song.news.ui.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -9,6 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +24,8 @@ public class WebViewActivity extends BaseActivity {
     private ProgressBar mProgressBar;
     private TextView mTitle;
     private Toolbar mToolBar;
+    private ImageView loading;
+    private AnimationDrawable spinner;
     public static final String webUrl = "webUrl";
 
     @Override
@@ -38,6 +42,8 @@ public class WebViewActivity extends BaseActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
         mTitle = (TextView) findViewById(R.id.public_title);
         mToolBar = (Toolbar) findViewById(R.id.toolBar);
+        loading = (ImageView) findViewById(R.id.iv_loading);
+        spinner = (AnimationDrawable) loading.getBackground();
     }
 
     private void InitData() {
@@ -69,7 +75,6 @@ public class WebViewActivity extends BaseActivity {
         mVebView.setWebViewClient(new mWebViewClient());
 
         mVebView.loadUrl(mUrl);
-        showDialog();
     }
 
 
@@ -129,12 +134,17 @@ public class WebViewActivity extends BaseActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             LogUtils.debug("onStart",url);
+            loading.setVisibility(View.VISIBLE);
+            spinner.start();
             super.onPageStarted(view, url, favicon);
         }
         //网页加载完毕
         @Override
         public void onPageFinished(WebView view, String url) {
-            closeDialog();
+            if(spinner.isRunning()){
+                loading.setVisibility(View.GONE);
+                spinner.stop();
+            }
             super.onPageFinished(view, url);
         }
     }
