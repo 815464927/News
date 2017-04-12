@@ -39,5 +39,16 @@ public class ToastUtils {
         }
         oneTime = twoTime;
     }
+
+    /**
+     * 取消Toast
+     */
+    public static void cancelToast( ){
+        if( null != toast ){
+            toast.cancel( );
+        }
+    }
+
+
 }
 
