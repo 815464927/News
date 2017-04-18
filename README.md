@@ -3,6 +3,16 @@
 > 这是一款基于mvp模式的开发的客户端,无聊就写着玩，现在卡在这里了，慢慢思考思考下一步。
 先保存在github，周末再继续写......
 
+## 应用截图
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/splash.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E5%9B%BD%E5%86%85%E7%84%A6%E7%82%B9.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E8%8F%9C%E5%8D%95.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E8%8F%9C%E5%8D%952.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E5%9B%BD%E9%99%85%E7%84%A6%E7%82%B9.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E7%A7%91%E6%8A%80%E7%84%A6%E7%82%B9.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E4%BD%93%E8%82%B2%E7%84%A6%E7%82%B9.png)-
+![](https://raw.githubusercontent.com/815464927/News/master/screenShots/%E5%A8%B1%E4%B9%90%E7%84%A6%E7%82%B9.png)-
+
 ## 依赖的第三方库
 * [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
 * [floatingactionbutton](https://github.com/makovkastar/FloatingActionButton)
